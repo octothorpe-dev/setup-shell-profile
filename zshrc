@@ -1,8 +1,12 @@
 # Set up the prompt
+autoload -Uz vcs_info
+precmd_vcs_info() { vcs_info }
+precmd_functions+=( precmd_vcs_info )
+setopt prompt_subst
+zstyle ':vcs_info:git:*' formats '%F{227}(%b)%f'
+zstyle ':vcs_info:*' enable git
 
-autoload -Uz promptinit
-promptinit
-prompt adam1
+PROMPT='%(?.%F{green}√.%F{red}?%?)%f %B%F{39}%1~%f%b $vcs_info_msg_0_ %# '
 
 setopt histignorealldups sharehistory
 
