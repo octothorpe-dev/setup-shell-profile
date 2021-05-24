@@ -63,7 +63,7 @@ setup_git_repos() {
     -c fsck.zeroPaddedFilemode=ignore \
     -c fetch.fsck.zeroPaddedFilemode=ignore \
     -c receive.fsck.zeroPaddedFilemode=ignore \
-    --depth=1 --branch "$BRANCH" "$REMOTE" "$ZSH/main-repo" || {
+    --depth=1 --branch "$BRANCH" "$REMOTE" "$ZSH/setup-shell-profile" || {
     fmt_error "git clone of set-shell-profile repo failed"
     exit 1
   }

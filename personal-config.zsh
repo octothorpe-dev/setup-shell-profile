@@ -40,6 +40,17 @@ zstyle ':completion:*' verbose true
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
+# git aliases
+alias ga='git add'
+alias gb='git branch'
+alias gsw='git switch'
+alias grb='git rebase'
+alias grbc='git rebase --continue'
+alias gst='git status'
+alias gcmsg='git commit -m'
+alias gp='git push'
+alias gup='git pull'
+
 # autosuggestions
 source ~/.personal-shell-config/zsh-autosuggestions/zsh-autosuggestions.zsh
 
