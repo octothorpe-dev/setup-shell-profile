@@ -192,7 +192,7 @@ main() {
     exit 1
   fi
 
-  setup_ohmyzsh
+  setup_git_repos
   setup_zshrc
   setup_shell
 
