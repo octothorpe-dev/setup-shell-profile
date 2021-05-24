@@ -41,7 +41,7 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # autosuggestions
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/.personal-shell-config/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # syntax highlighting - MUST BE AT BOTTOM!
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.personal-shell-config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

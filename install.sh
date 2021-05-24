@@ -5,9 +5,9 @@
 set -e
 
 # Default settings
-ZSH=${ZSH:-~/.personal-shell}
+ZSH=${ZSH:-~/.personal-shell-config}
 REPO=${REPO:-octothorpe-dev/setup-shell-profile}
-REMOTE=${REMOTE:-https://github.com/${REPO}.git}
+REMOTE=${REMOTE:-git@github.com:${REPO}.git}
 BRANCH=${BRANCH:-main}
 
 command_exists() {
@@ -65,8 +65,26 @@ setup_git_repos() {
     -c fsck.zeroPaddedFilemode=ignore \
     -c fetch.fsck.zeroPaddedFilemode=ignore \
     -c receive.fsck.zeroPaddedFilemode=ignore \
-    --depth=1 --branch "$BRANCH" "$REMOTE" "$ZSH" || {
+    --depth=1 --branch "$BRANCH" "$REMOTE" "$ZSH/main-repo" || {
     fmt_error "git clone of set-shell-profile repo failed"
+    exit 1
+  }
+
+    git clone -c core.eol=lf -c core.autocrlf=false \
+    -c fsck.zeroPaddedFilemode=ignore \
+    -c fetch.fsck.zeroPaddedFilemode=ignore \
+    -c receive.fsck.zeroPaddedFilemode=ignore \
+    --depth=1 --branch "master" "https://github.com/zsh-users/zsh-autosuggestions.git" "$ZSH/zsh-autosuggestions" || {
+    fmt_error "git clone of zsh-users autosuggestions repo failed"
+    exit 1
+  }
+
+    git clone -c core.eol=lf -c core.autocrlf=false \
+    -c fsck.zeroPaddedFilemode=ignore \
+    -c fetch.fsck.zeroPaddedFilemode=ignore \
+    -c receive.fsck.zeroPaddedFilemode=ignore \
+    --depth=1 --branch "master" "https://github.com/zsh-users/zsh-syntax-highlighting.git" "$ZSH/zsh-syntax-highlighting" || {
+    fmt_error "git clone of zsh-users syntax highlighting repo failed"
     exit 1
   }
 
@@ -98,9 +116,9 @@ setup_zshrc() {
     mv ~/.zshrc "$OLD_ZSHRC"
   fi
 
-  echo "${GREEN}Using the Oh My Zsh template file and adding it to ~/.zshrc.${RESET}"
+  echo "${GREEN}Copying personal zshrc to ~/.zshrc.${RESET}"
 
-  cp -f --remove-destination $ZSH/zshrc ~/.zshrc
+  cp -f --remove-destination $ZSH/main-repo/zshrc ~/.zshrc
 
   echo
 }
@@ -131,35 +149,6 @@ EOF
     n*|N*) echo "Shell change skipped."; return ;;
     *) echo "Invalid choice. Shell change skipped."; return ;;
   esac
-
-  # Check if we're running on Termux
-  case "$PREFIX" in
-    *com.termux*) termux=true; zsh=zsh ;;
-    *) termux=false ;;
-  esac
-
-  if [ "$termux" != true ]; then
-    # Test for the right location of the "shells" file
-    if [ -f /etc/shells ]; then
-      shells_file=/etc/shells
-    elif [ -f /usr/share/defaults/etc/shells ]; then # Solus OS
-      shells_file=/usr/share/defaults/etc/shells
-    else
-      fmt_error "could not find /etc/shells file. Change your default shell manually."
-      return
-    fi
-
-    # Get the path to the right zsh binary
-    # 1. Use the most preceding one based on $PATH, then check that it's in the shells file
-    # 2. If that fails, get a zsh path from the shells file, then check it actually exists
-    if ! zsh=$(command -v zsh) || ! grep -qx "$zsh" "$shells_file"; then
-      if ! zsh=$(grep '^/.*/zsh$' "$shells_file" | tail -1) || [ ! -f "$zsh" ]; then
-        fmt_error "no zsh binary found or not present in '$shells_file'"
-        fmt_error "change your default shell manually."
-        return
-      fi
-    fi
-  fi
 
   # We're going to change the default shell, so back up the current one
   if [ -n "$SHELL" ]; then
@@ -198,11 +187,6 @@ main() {
 
   printf %s "${GREEN}Sucess!!"
   printf %s "$RESET"
-
-  if [ $RUNZSH = no ]; then
-    echo "${YELLOW}Run zsh to try it out.${RESET}"
-    exit
-  fi
 
   exec zsh -l
 }
