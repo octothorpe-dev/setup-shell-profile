@@ -1,7 +1,5 @@
 #!/bin/sh
-#
-# This script should be run via curl:
-#   sh -c "$(curl -fsSL https://raw.githubusercontent.com/octothorpe-dev/zsh-profile/main/install.sh)"
+
 set -e
 
 # Default settings
@@ -91,38 +89,6 @@ setup_git_repos() {
   echo
 }
 
-setup_zshrc() {
-  # Keep most recent old .zshrc at .zshrc.old-profile, and older ones
-  # with datestamp of installation that moved them aside, so we never actually
-  # destroy a user's original zshrc
-  echo "${BLUE}Looking for an existing zsh config...${RESET}"
-
-  # Must use this exact name so uninstall.sh can find it
-  OLD_ZSHRC=~/.zshrc.old-profile
-  if [ -f ~/.zshrc ] || [ -h ~/.zshrc ]; then
-    if [ -e "$OLD_ZSHRC" ]; then
-      OLD_OLD_ZSHRC="${OLD_ZSHRC}-$(date +%Y-%m-%d_%H-%M-%S)"
-      if [ -e "$OLD_OLD_ZSHRC" ]; then
-        fmt_error "$OLD_OLD_ZSHRC exists. Can't back up ${OLD_ZSHRC}"
-        fmt_error "re-run the installer again in a couple of seconds"
-        exit 1
-      fi
-      mv "$OLD_ZSHRC" "${OLD_OLD_ZSHRC}"
-
-      echo "${YELLOW}Found old ~/.zshrc.old-profile." \
-        "${GREEN}Backing up to ${OLD_OLD_ZSHRC}${RESET}"
-    fi
-    echo "${YELLOW}Found ~/.zshrc.${RESET} ${GREEN}Backing up to ${OLD_ZSHRC}${RESET}"
-    mv ~/.zshrc "$OLD_ZSHRC"
-  fi
-
-  echo "${GREEN}Copying personal zshrc to ~/.zshrc.${RESET}"
-
-  cp -f --remove-destination $ZSH/main-repo/zshrc ~/.zshrc
-
-  echo
-}
-
 setup_shell() {
   # If this user's login shell is already "zsh", do not attempt to switch.
   if [ "$(basename -- "$SHELL")" = "zsh" ]; then
@@ -182,7 +148,6 @@ main() {
   fi
 
   setup_git_repos
-  setup_zshrc
   setup_shell
 
   printf %s "${GREEN}Sucess!!"
