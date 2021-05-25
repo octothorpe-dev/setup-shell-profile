@@ -5,7 +5,7 @@ set -e
 # Default settings
 ZSH=${ZSH:-~/.personal-shell-config}
 REPO=${REPO:-octothorpe-dev/setup-shell-profile}
-REMOTE=${REMOTE:-git@github.com:${REPO}.git}
+REMOTE=${REMOTE:-https://github.com/${REPO}.git}
 BRANCH=${BRANCH:-main}
 
 command_exists() {
