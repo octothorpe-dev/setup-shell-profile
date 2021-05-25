@@ -44,12 +44,18 @@ zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 alias ga='git add'
 alias gb='git branch'
 alias gsw='git switch'
+alias gswc='git switch -c'
 alias grb='git rebase'
 alias grbc='git rebase --continue'
 alias gst='git status'
 alias gcmsg='git commit -m'
 alias gp='git push'
 alias gup='git pull'
+
+# exa aliases
+alias ls='exa'
+alias ll='exa -l'
+alias lla='exa -la'
 
 # autosuggestions
 source ~/.personal-shell-config/zsh-autosuggestions/zsh-autosuggestions.zsh
