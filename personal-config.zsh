@@ -28,6 +28,7 @@ alias gst='git status'
 alias gcmsg='git commit -m'
 alias gp='git push'
 alias gup='git pull'
+alias glo='git log'
 
 # exa aliases
 alias ls='exa'
