@@ -1,3 +1,6 @@
+autoload -Uz compinit
+compinit
+
 # Set up the prompt
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }

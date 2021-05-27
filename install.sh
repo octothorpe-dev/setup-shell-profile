@@ -8,6 +8,7 @@ REPO=${REPO:-octothorpe-dev/setup-shell-profile}
 REMOTE=${REMOTE:-https://github.com/${REPO}.git}
 BRANCH=${BRANCH:-main}
 
+# check if the command is available
 command_exists() {
 	command -v "$@" >/dev/null 2>&1
 }
