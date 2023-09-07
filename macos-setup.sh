@@ -1,7 +1,6 @@
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install git
-brew install --cask git-credential-manager
-git credential-manager configure
+brew install gh
 brew install exa
 brew install jq
 brew install powerlevel10k
